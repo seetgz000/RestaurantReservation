@@ -1,4 +1,4 @@
-package com.example.restaurantreservation;
+package com.example.reservation;
 
 import org.junit.Test;
 

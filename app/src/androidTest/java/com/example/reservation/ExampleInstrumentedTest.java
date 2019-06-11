@@ -1,4 +1,4 @@
-package com.example.restaurantreservation;
+package com.example.reservation;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.restaurantreservation", appContext.getPackageName());
+        assertEquals("com.example.reservation", appContext.getPackageName());
     }
 }

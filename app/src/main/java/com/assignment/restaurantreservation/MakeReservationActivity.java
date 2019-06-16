@@ -1,13 +1,26 @@
 package com.assignment.restaurantreservation;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
-public class MakeReservationActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+import java.text.DateFormat;
+import java.util.Calendar;
+
+public class MakeReservationActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +32,8 @@ public class MakeReservationActivity extends AppCompatActivity implements Bottom
         navView.setOnNavigationItemSelectedListener(this);
 
         loadFragment(new HomeFragment());
+
+
     }
 
     private boolean loadFragment(Fragment fragment){
@@ -55,4 +70,7 @@ public class MakeReservationActivity extends AppCompatActivity implements Bottom
         }
         return loadFragment(fragment);
     }
+
+
+
 }

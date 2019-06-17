@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,7 +26,8 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
     String Prefseatdropdown[] = {" ","Corner","Near bathroom","View","Sofa"};
     String hehe = "hest";
     ArrayAdapter<String>myadapter;
-    EditText datepick, timepick;
+    Button datepick, timepick;
+    EditText datepickshow, timepickshow;
     int day, month, year, hour, minute;
     int day_x, month_x, year_x, hour_x, minute_x;
 
@@ -34,6 +36,8 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_reservation, null);
 
+        datepickshow = view.findViewById(R.id.DatePickShow);
+        timepickshow = view.findViewById(R.id.TimePickShow);
 
 
         datepick = view.findViewById(R.id.DatePick);
@@ -90,7 +94,7 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
         year_x = year;
         month_x = month + 1;
         day_x = dayOfMonth;
-        datepick.setText(day_x + "/" + month_x + "/" + year_x);
+        datepickshow.setText(day_x + "/" + month_x + "/" + year_x);
 
     }
 
@@ -98,7 +102,7 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         hour_x = hourOfDay;
         minute_x = minute;
-        timepick.setText(hourOfDay + ":" + minute_x);
+        timepickshow.setText(hourOfDay + ":" + minute_x);
 
     }
 

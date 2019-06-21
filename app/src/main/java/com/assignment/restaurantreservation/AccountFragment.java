@@ -41,7 +41,7 @@ public class AccountFragment extends Fragment{
         EditProfile editProfile = new EditProfile();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_account, editProfile);
+        fragmentTransaction.replace(R.id.fragment_container, editProfile);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

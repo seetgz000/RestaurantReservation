@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/angang" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/time_reserve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/time_reserve" />
 
     <EditText
         android:id="@+id/_password"

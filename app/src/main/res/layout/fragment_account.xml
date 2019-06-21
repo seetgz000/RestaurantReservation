@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".AccountFragment">
 
+
     <TextView
         android:id="@+id/btnEditProfile"
         android:layout_width="wrap_content"
@@ -23,10 +24,11 @@
         android:id="@+id/imageView2"
         android:layout_width="138dp"
         android:layout_height="121dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/default_avatar"
-        tools:layout_editor_absoluteX="16dp" />
+        app:srcCompat="@drawable/default_avatar" />
 
     <TextView
         android:id="@+id/textView"

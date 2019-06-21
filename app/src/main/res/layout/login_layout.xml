@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/_username" />
 
     <android.support.v7.widget.CardView
-        android:id="@+id/Login"
+        android:id="@+id/LoginButton2"
         android:layout_width="270dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"

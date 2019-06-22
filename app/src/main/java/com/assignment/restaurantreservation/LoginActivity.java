@@ -5,19 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button LoginButton;
+    CardView LoginButton;
     EditText username,password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.login_layout);
         LoginButton = findViewById(R.id.LoginButton2);
         username = findViewById(R.id._username);
         password = findViewById(R.id._password);
@@ -28,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
                 AuthorizedOpen();
             }
         });
-
     }
 
     public void AuthorizedOpen() {
@@ -65,5 +63,3 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
-
-

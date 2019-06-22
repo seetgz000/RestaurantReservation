@@ -18,7 +18,20 @@ public class MakeReservationActivity extends AppCompatActivity implements Bottom
 
         navView.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new HomeFragment());
+        loadFirstFragment(new HomeFragment());
+    }
+
+    private boolean loadFirstFragment(Fragment fragment){
+        if(fragment != null){
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+
+            return true;
+        }
+        return false;
     }
 
     private boolean loadFragment(Fragment fragment){
@@ -27,6 +40,7 @@ public class MakeReservationActivity extends AppCompatActivity implements Bottom
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
                     .commit();
 
             return true;

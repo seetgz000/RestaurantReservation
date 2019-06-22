@@ -54,13 +54,12 @@ public class LandingActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
+//        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, StaffReservationDetails.class);
         startActivity(intent);
     }
     public void AnonymousOpen() {
         Intent intent = new Intent(this, MakeReservationActivity.class);
         startActivity(intent);
     }
-
-
 }

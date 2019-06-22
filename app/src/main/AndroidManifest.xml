@@ -12,6 +12,7 @@
         <activity android:name=".MakeReservationActivity"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".StaffReservationDetails"/>
         <activity android:name=".LandingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

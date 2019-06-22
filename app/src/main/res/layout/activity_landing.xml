@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1e88e5"
     tools:context=".LandingActivity">
 
 
@@ -42,7 +42,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/loginbutton"
                 android:layout_width="45dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="8dp"
@@ -130,5 +129,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
+
+
+
 
 </android.support.constraint.ConstraintLayout>

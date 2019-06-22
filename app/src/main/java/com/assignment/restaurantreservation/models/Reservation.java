@@ -19,13 +19,13 @@ public class Reservation {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Reservation(int no_seat, String seat_type, Timestamp create_date) {
+    public Reservation(int no_seat, String seat_type, Timestamp create_time) {
 //        add FirebaseUser user?
 //        this.account_id = account_id.getUid();
         this.no_seat = no_seat;
         this.account_id = 111;
         this.seat_type = seat_type;
-        this.created_time = create_date;
+        this.created_time = create_time;
 //        this.comment = comment;
     }
 
@@ -57,7 +57,7 @@ public class Reservation {
         return created_time;
     }
 
-    public void setCeserva_time(Timestamp created_time) {
+    public void setCreated_time(Timestamp created_time) {
         this.created_time = created_time;
     }
 }

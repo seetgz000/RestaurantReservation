@@ -1,19 +1,29 @@
 package com.assignment.restaurantreservation;
-
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 public class LandingActivity extends AppCompatActivity {
 
 
     private TextView signuptext, customerPage;
     EditText _username, _password;
-    CardView cardView, LoginButton, RegisterButton, AnonymousButton;
+    Button LoginButton, RegisterButton, AnonymousButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +32,6 @@ public class LandingActivity extends AppCompatActivity {
 
         _username = findViewById(R.id._username);
         _password = findViewById(R.id._password);
-        cardView = findViewById(R.id.cardView);
         LoginButton = findViewById(R.id.LoginButton1);
         RegisterButton = findViewById(R.id.RegisterButton);
         AnonymousButton = findViewById(R.id.AnonymousButton);

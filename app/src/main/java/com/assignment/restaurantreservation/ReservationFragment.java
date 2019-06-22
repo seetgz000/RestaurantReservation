@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
+
+import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.assignment.restaurantreservation.models.Reservation;
@@ -43,7 +47,7 @@ public class ReservationFragment extends Fragment
                                 ,"2:00 PM","2:30 PM","3:00 PM","3:30 PM","4:00 PM","4:30 PM","5:00 PM","5:30 PM","6:00 PM","6:30 PM"
                                 ,"7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM"};
     String Noofseat[] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"};
-    String Prefseatdropdown[] = {"None", "Corner","Near Washroom","New Window","New Entrance"};
+    String Prefseatdropdown[] = {"None", "Corner","Near Washroom","Near Window","Near Entrance"};
     ArrayAdapter<String> myadapter;
     int day, month, year, hour, minute;
     int day_x, month_x, year_x, hour_x, minute_x;

@@ -1,5 +1,4 @@
 package com.assignment.restaurantreservation;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -24,7 +23,7 @@ public class LandingActivity extends AppCompatActivity {
 
     private TextView signuptext, customerPage;
     EditText _username, _password;
-    CardView cardView, LoginButton, RegisterButton, AnonymousButton;
+    Button LoginButton, RegisterButton, AnonymousButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class LandingActivity extends AppCompatActivity {
 
         _username = findViewById(R.id._username);
         _password = findViewById(R.id._password);
-        cardView = findViewById(R.id.cardView);
         LoginButton = findViewById(R.id.LoginButton1);
         RegisterButton = findViewById(R.id.RegisterButton);
         AnonymousButton = findViewById(R.id.AnonymousButton);

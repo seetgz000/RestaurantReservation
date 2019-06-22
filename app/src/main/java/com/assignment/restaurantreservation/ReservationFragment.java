@@ -2,6 +2,7 @@ package com.assignment.restaurantreservation;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,7 +27,7 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
     String Prefseatdropdown[] = {" ","Corner","Near bathroom","View","Sofa"};
     String hehe = "hest";
     ArrayAdapter<String>myadapter;
-    Button datepick, timepick;
+    Button datepick, timepick, submit;
     EditText datepickshow, timepickshow;
     int day, month, year, hour, minute;
     int day_x, month_x, year_x, hour_x, minute_x;
@@ -85,6 +86,15 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(myadapter);
 
+
+        submit = view.findViewById(R.id.Submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                submitDetails();
+            }
+        });
+
         return view;
 
     }
@@ -104,6 +114,32 @@ public class ReservationFragment extends Fragment implements DatePickerDialog.On
         minute_x = minute;
         timepickshow.setText(hourOfDay + ":" + minute_x);
 
+    }
+
+
+    public void submitDetails() {
+        String Date = datepickshow.getText().toString();
+        String Time = timepickshow.getText().toString();
+
+        if (is_empty(Date)) {
+            datepickshow.requestFocus();
+            datepickshow.setError("Please pick a date");
+            return;
+        }
+        if (is_empty(Time)){
+            timepickshow.requestFocus();
+            timepickshow.setError("Please pick a time");
+            return;
+        }
+
+    }
+
+    private boolean is_empty(String string){
+        boolean return_status =  false;
+        if (string.length() == 0 ){
+            return_status = true;
+        }
+        return return_status;
     }
 
 }

@@ -36,12 +36,13 @@
             android:textSize="18sp"
             android:textColor="@color/colorText"
             android:background="@drawable/custom_button"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            android:textAllCaps="false"
             />
+
 
     <Button
         android:id="@+id/RegisterButton"
@@ -80,5 +81,8 @@
         app:layout_constraintTop_toBottomOf="@+id/RegisterButton"
         android:textAllCaps="false"
         />
+
+
+
 
 </android.support.constraint.ConstraintLayout>

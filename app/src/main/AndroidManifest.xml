@@ -11,7 +11,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MakeReservationActivity"/>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LandingActivity">
             <intent-filter>

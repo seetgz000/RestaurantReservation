@@ -36,9 +36,10 @@ public class EditProfile extends Fragment {
     private static final String TAG = "EditProfile";
 
     private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authListener;
     private FirebaseFirestore mFirestore;
     private FirebaseUser user;
-    private EditText email,password,confirmPassword, fullName, mobileNumber;
+    private EditText email,password,confirmPassword, fullName, phoneNumber;
     private Button editProfileBtn;
 
     int updated_email = 0;
@@ -51,27 +52,40 @@ public class EditProfile extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_edit_profile, null);
+        final View view = inflater.inflate(R.layout.activity_edit_profile, null);
 
-        fullName = rootView.findViewById(R.id._full_name);
-        email = rootView.findViewById(R.id._email);
-        mobileNumber = rootView.findViewById(R.id._phoneNumber);
-        password = rootView.findViewById(R.id._password);
-        confirmPassword = rootView.findViewById(R.id._confirmPassword);
-        editProfileBtn = rootView.findViewById(R.id.btn_EditProfileSave);
+
+        editProfileBtn = view.findViewById(R.id.btn_EditProfileSave);
+        fullName = view.findViewById(R.id._fullnameEP);
+        email = view.findViewById(R.id._emailEP);
+        password = view.findViewById(R.id._passwordEP);
+        confirmPassword = view.findViewById(R.id._confirmPasswordEP);
+        phoneNumber = view.findViewById(R.id._phoneNumberEP);
+
 
         auth = FirebaseAuth.getInstance();
         initFirestore();
 
-        editProfileBtn.setOnClickListener(new  View.OnClickListener() {
+        //if user already logged in
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //signed in
+                if (firebaseAuth.getCurrentUser() == null) {
+                    Toast.makeText(getContext(), "Internet connection unavailable.", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editProfile();
             }
         });
 
-        user = auth.getInstance().getCurrentUser();
 
+        user = auth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
             String userID = user.getUid();
@@ -85,7 +99,7 @@ public class EditProfile extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 fullName.setText(document.getString("customer_name"));
                                 email.setText(document.getString("email"));
-                                mobileNumber.setText(document.getString("mobile_number"));
+                                phoneNumber.setText(document.getString("mobile_number"));
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                         } else {
@@ -100,7 +114,7 @@ public class EditProfile extends Fragment {
 
 
 
-        return rootView;
+        return view;
     }
 
     private void initFirestore() {
@@ -108,19 +122,31 @@ public class EditProfile extends Fragment {
     }
 
     private void editProfile(){
+        super.onStart();
+        //auth.addAuthStateListener(authListener);
+
         updated_email = 0;
         updated_password = 0;
 
-
         final String full_name = fullName.getText().toString();
-        final String mobile_number = mobileNumber.getText().toString();
+        final String phone_number = phoneNumber.getText().toString();
         final String email_input = email.getText().toString();
         final String password_input = password.getText().toString();
         String confirm_pass_input = confirmPassword.getText().toString();
 
-
         FirebaseUser user = auth.getCurrentUser();
 
+        if (full_name.isEmpty() || !isValidName(full_name)) {
+            fullName.requestFocus();
+            if (full_name.isEmpty()) {fullName.setError("Name cannot be empty");}
+            else if (  ! isValidName(full_name)){fullName.setError("Invalid name, only alphabets are allowed.");}
+        }else if (phone_number.isEmpty() || phone_number.contains(" ") || ! isValidNumber(email_input)) {
+            phoneNumber.requestFocus();
+
+            if (phone_number.isEmpty()) {phoneNumber.setError("Phone number cannot be empty");}
+            else if (phone_number.contains(" ")){phoneNumber.setError("Spaces are not allowed.");}
+            else if ( ! isValidNumber(phone_number)){phoneNumber.setError("Invalid phone number");}
+        }
         //email validation
         if (! email_input.isEmpty()) {
             if (!isValidEmail(email_input)) {
@@ -132,26 +158,26 @@ public class EditProfile extends Fragment {
             } else {
                 updated_email =1;
                 user.updateEmail(email_input)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful())
-                                {
-                                    Toast.makeText(getActivity(),"Profile updated",Toast.LENGTH_LONG).show();
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                            {
+                                Toast.makeText(getActivity(),"Profile updated",Toast.LENGTH_LONG).show();
 
-                                    if(updated_password == 0){
-                                        Toast.makeText(getActivity(),"Email updated",Toast.LENGTH_LONG).show();
-                                    }
-                                    if(password_input.isEmpty() || updated_password == 1){
-                                        goHome();
-                                    }
+                                if(updated_password == 0){
+                                    Toast.makeText(getActivity(),"Email updated",Toast.LENGTH_LONG).show();
                                 }
-                                else{
-                                    email.requestFocus();
-                                    email.setError("Invalid email.");
+                                if(password_input.isEmpty() || updated_password == 1){
+                                    goHome();
                                 }
                             }
-                        });
+                            else{
+                                email.requestFocus();
+                                email.setError("Invalid email.");
+                            }
+                        }
+                    });
             }
         }
 
@@ -170,25 +196,25 @@ public class EditProfile extends Fragment {
             } else {
                 updated_password = 1;
                 user.updatePassword(password_input)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(),"Profile updated",Toast.LENGTH_LONG).show();
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getActivity(),"Profile updated",Toast.LENGTH_LONG).show();
 
-                                    if(updated_email == 0 ){
-                                        Toast.makeText(getActivity(),"Password updated",Toast.LENGTH_LONG).show();
-                                    }
-                                    if (email_input.isEmpty() || updated_email == 1){
-                                        goHome();
-                                    }
+                                if(updated_email == 0 ){
+                                    Toast.makeText(getActivity(),"Password updated",Toast.LENGTH_LONG).show();
                                 }
-                                else{
-                                    password.requestFocus();
-                                    password.setError("Invalid password.");
+                                if (email_input.isEmpty() || updated_email == 1){
+                                    goHome();
                                 }
                             }
-                        });
+                            else{
+                                password.requestFocus();
+                                password.setError("Invalid password.");
+                            }
+                        }
+                    });
             }
         }
 
@@ -200,24 +226,24 @@ public class EditProfile extends Fragment {
             String userID = user.getUid();
 
             mFirestore.collection("accounts").whereEqualTo("account_id", userID)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    DocumentReference accountDoc = mFirestore.collection("accounts").document(document.getId());
-                                    batch.update(accountDoc,"customer_name", full_name);
-                                    batch.update(accountDoc,"mobile_number", mobile_number);
-                                    batch.update(accountDoc,"email", email_input);
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                }
-                                batch.commit();
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference accountDoc = mFirestore.collection("accounts").document(document.getId());
+                                batch.update(accountDoc,"customer_name", full_name);
+                                batch.update(accountDoc,"mobile_number", phone_number);
+                                batch.update(accountDoc,"email", email_input);
+                                Log.d(TAG, document.getId() + " => " + document.getData());
                             }
+                            batch.commit();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    });
+                    }
+                });
         } else {
             // No user is signed in
             Log.d(TAG, "Please Sign In to keep your information");
@@ -240,6 +266,20 @@ public class EditProfile extends Fragment {
         fr.addToBackStack(null);
         fr.commit();
     }
+
+    private boolean isValidName(String fullname) {
+        String regex = "[A-Za-z ]+";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher m = p.matcher(fullname);
+        return m.matches();
+    }//end isValidName
+
+    private boolean isValidNumber(String fullname) {
+        String regex = "[0-9]+";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher m = p.matcher(fullname);
+        return m.matches();
+    }//end isValidNumber
 
 
 }//end class

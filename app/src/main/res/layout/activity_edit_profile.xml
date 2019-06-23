@@ -26,7 +26,7 @@
 
 
     <EditText
-        android:id="@+id/_full_name"
+        android:id="@+id/_fullnameEP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_Edit_Profile" />
 
     <EditText
-        android:id="@+id/_email"
+        android:id="@+id/_emailEP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,10 +55,10 @@
         android:textColor="@color/colorText_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_full_name" />
+        app:layout_constraintTop_toBottomOf="@+id/_fullnameEP" />
 
     <EditText
-        android:id="@+id/_password"
+        android:id="@+id/_passwordEP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -71,10 +71,10 @@
         android:textColor="@color/colorText_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_email" />
+        app:layout_constraintTop_toBottomOf="@+id/_emailEP" />
 
     <EditText
-        android:id="@+id/_confirmPassword"
+        android:id="@+id/_confirmPasswordEP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -87,10 +87,10 @@
         android:textColor="@color/colorText_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_password" />
+        app:layout_constraintTop_toBottomOf="@+id/_passwordEP" />
 
     <EditText
-        android:id="@+id/_phoneNumber"
+        android:id="@+id/_phoneNumberEP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -103,7 +103,7 @@
         android:textColorHint="@color/colorHint_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_confirmPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/_confirmPasswordEP" />
 
     <Button
         android:id="@+id/btn_EditProfileSave"
@@ -121,6 +121,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_phoneNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/_phoneNumberEP" />
 
 </android.support.constraint.ConstraintLayout>

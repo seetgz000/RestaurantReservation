@@ -1,47 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/txt_aboutUs"
-        android:layout_width="356dp"
-        android:layout_height="330dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="Hi, Welcome to Ang Ang. Our restaurant provides elegant and cheerful ambience with variety culture of food that will fill your tummy and cheer up your day! \n\nTypes of food: Western, Chinese, Malay, Indian, Taiwanese, Hong Kong.   \n\nWe accept gatherings, reunion and small parties too, make sure to book your reservation beforehand!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txt_restaurantDetails"
-        android:layout_width="356dp"
-        android:layout_height="220dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Opening hours:\n10:00am to 10:00pm\n\nLocation:\nno10. PJS 19/22 Bandar Sunway, Selangor\n\nContact us:+60132223827"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_aboutUs"
-        app:layout_constraintVertical_bias="0.0" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#C2ECFF">
+
+                <TextView
+                    android:id="@+id/txt_HOME"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="Home"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="36sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_aboutUs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="false"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:text="Hi, Welcome to Ang Ang. Our restaurant provides elegant and cheerful ambience with variety culture of food that will fill your tummy and cheer up your day! \n\nTypes of food: Western, Chinese, Malay, Indian, Taiwanese, Hong Kong.   \n\nWe accept gatherings, reunion and small parties too, make sure to book your reservation beforehand!"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Our Signature dishes"
+                android:textAlignment="center"
+                android:background="#C2ECFF"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="280dp"
+                app:srcCompat="@drawable/food1" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hot Tortillas"
+                android:textColor="@color/colorText_black"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="280dp"
+                app:srcCompat="@drawable/food2" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Spicy chicken fried rice"
+                android:textColor="@color/colorText_black"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/txt_restaurantDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Opening hours:\n10:00am to 10:00pm\n\nLocation:\nno10. PJS 19/22 Bandar Sunway, Selangor\n\nContact us:+60132223827"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

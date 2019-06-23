@@ -32,5 +32,12 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:5.0.0'
     implementation 'com.google.firebase:firebase-firestore:19.0.2'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
+
+    //Google Play Services for Maps
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+
+    // Google play services for location information
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

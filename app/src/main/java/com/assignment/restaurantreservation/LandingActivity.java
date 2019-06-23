@@ -34,7 +34,6 @@ public class LandingActivity extends AppCompatActivity {
         _password = findViewById(R.id._password);
         LoginButton = findViewById(R.id.LoginButton1);
         RegisterButton = findViewById(R.id.RegisterButton);
-        AnonymousButton = findViewById(R.id.AnonymousButton);
 
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,13 +45,6 @@ public class LandingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openSignup();
-            }
-        });
-
-        AnonymousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnonymousOpen();
             }
         });
 

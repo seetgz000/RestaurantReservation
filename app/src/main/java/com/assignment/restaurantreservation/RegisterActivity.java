@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseFirestore mFirestore;
 
-    private EditText fullName,email,password,confirmPassword,mobileNo;
+    private EditText fullName,email,password,confirmPassword,phoneNumber;
     private Button registerBtn;
 
     @Override
@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id._password);
         confirmPassword = findViewById(R.id._confirmPassword);
         fullName = findViewById(R.id._fullName);
-        mobileNo = findViewById(R.id._phoneNumber);
+        phoneNumber = findViewById(R.id._phoneNumber);
 
         auth = FirebaseAuth.getInstance();
 
@@ -74,12 +74,21 @@ public class RegisterActivity extends AppCompatActivity {
         super.onStart();
         //auth.addAuthStateListener(authListener);
 
-
+        String full_name_input = fullName.getText().toString();
         String email_input = email.getText().toString();
         String password_input = password.getText().toString();
         String confirm_pass_input = confirmPassword.getText().toString();
+        String phone_number_input = phoneNumber.getText().toString();
 
-        if (email_input.isEmpty() || email_input.contains(" ") || ! isValidEmail(email_input)) {
+
+        if (full_name_input.isEmpty() || !isValidName(full_name_input)) {
+            fullName.requestFocus();
+            if (full_name_input.isEmpty()) {fullName.setError("Name cannot be empty");}
+            else if (  ! isValidName(full_name_input)){fullName.setError("Invalid name, only alphabets are allowed.");}
+        }
+
+
+        else if (email_input.isEmpty() || email_input.contains(" ") || ! isValidEmail(email_input)) {
             email.requestFocus();
 
             if (email_input.isEmpty()) {email.setError("Email field cannot be empty");}
@@ -100,6 +109,16 @@ public class RegisterActivity extends AppCompatActivity {
             confirmPassword.requestFocus();
             confirmPassword.setError("Password entered is not the same.");
         }
+
+
+        else if (phone_number_input.isEmpty() || phone_number_input.contains(" ") || ! isValidNumber(email_input)) {
+            phoneNumber.requestFocus();
+
+            if (phone_number_input.isEmpty()) {phoneNumber.setError("Phone number cannot be empty");}
+            else if (phone_number_input.contains(" ")){phoneNumber.setError("Spaces are not allowed.");}
+            else if ( ! isValidNumber(phone_number_input)){phoneNumber.setError("Invalid phone number");}
+        }
+
         else {
             auth.createUserWithEmailAndPassword(email_input, password_input).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -108,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String fullName_input = fullName.getText().toString();
                         String email_input = email.getText().toString();
-                        String mobileNo_input = mobileNo.getText().toString();
+                        String mobileNo_input = phoneNumber.getText().toString();
 
                         Account account = new Account(user, fullName_input, email_input , mobileNo_input, new Timestamp(new Date()), 1, false);
                         mFirestore.collection("accounts")
@@ -133,6 +152,20 @@ public class RegisterActivity extends AppCompatActivity {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }//end isValidEmailAddress
+
+    private boolean isValidName(String fullname) {
+        String regex = "[A-Za-z ]+";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher m = p.matcher(fullname);
+        return m.matches();
+    }//end isValidName
+
+    private boolean isValidNumber(String fullname) {
+        String regex = "[0-9]+";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher m = p.matcher(fullname);
+        return m.matches();
+    }//end isValidNumber
 
 
 }//end class

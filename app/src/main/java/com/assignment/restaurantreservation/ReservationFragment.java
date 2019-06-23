@@ -1,12 +1,14 @@
 package com.assignment.restaurantreservation;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.assignment.restaurantreservation.models.Reservation;
 import com.google.firebase.Timestamp;
@@ -39,7 +42,7 @@ public class ReservationFragment extends Fragment
     private FirebaseFirestore mFirestore;
     // [END declare_database_ref]
 
-    Button btnDatepick, btnTimepick;
+    Button btnDatepick, btn_submit;
     TextView mDateReserve;
     Spinner mPreferredSeat, mNumSeat, mTimeReserve;
     EditText mComment;
@@ -81,8 +84,15 @@ public class ReservationFragment extends Fragment
             }
         });
 
+        Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH) + 1;
+        day = c.get(Calendar.DAY_OF_MONTH);
+
+        mDateReserve.setText(day + "/" + month + "/" + year);
+
         //Time drop down
-        mTimeReserve = view.findViewById(R.id._fullName);
+        mTimeReserve = view.findViewById(R.id._fullnameEP);
         myadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,Time);
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mTimeReserve.setAdapter(myadapter);
@@ -109,6 +119,10 @@ public class ReservationFragment extends Fragment
         // Finally, apply the gradient drawable to the edit text background
         mComment.setBackground(gd);
 
+        //submit button
+        btn_submit = view.findViewById(R.id.btnSubmitReservation);
+
+
         initFirestore();
 
         return view;
@@ -131,7 +145,24 @@ public class ReservationFragment extends Fragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSubmitReservation:
-                onSubmitClicked(v);
+
+                ReservationConfirm RC = new ReservationConfirm();
+
+                String date = mDateReserve.getText().toString();
+                String time = mTimeReserve.getSelectedItem().toString();
+                String seat = mNumSeat.getSelectedItem().toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("DATE",date);
+                bundle.putString("TIME",time);
+                bundle.putString("SEAT",seat);
+                RC.setArguments(bundle);
+
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        fr.replace(R.id.fragment_container, RC);
+                fr.addToBackStack(null);
+                        fr.commit();
+
                 break;
         }
     }
@@ -151,6 +182,10 @@ public class ReservationFragment extends Fragment
         Reservation reservation = new Reservation(account, numSeat, seat_type , date, time, comment, new Timestamp(new Date()), false);
         mFirestore.collection("reservations")
                 .add(reservation);
+
+        if (mDateReserve.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Please pick a date", Toast.LENGTH_LONG).show();
+        }
 
     }
 

@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.LoginButton2);
         email = findViewById(R.id._email);
-        password = findViewById(R.id._password);
+        password = findViewById(R.id._passwordEP);
         forgotPass = findViewById(R.id._forgotPassword);
 
         auth = FirebaseAuth.getInstance();
@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String email_input = email.getText().toString();
         String password_input = password.getText().toString();
+        final Account account = new Account();
 
         if (email_input.isEmpty() || email_input.contains(" ") || ! isValidEmail(email_input)) {
             email.requestFocus();
@@ -134,8 +135,32 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        //go to main reservation page
-                        startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
+
+                        mFirestore.collection("accounts").whereEqualTo("account_id", userID)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                account.setRole_id(document.getLong("role_id").intValue());
+                                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                            }
+                                        } else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+                        int role_id = account.getRole_id();
+                        Log.d(TAG, "Role_id" + " => " + role_id);
+                        if (role_id == 0){
+                            //go to main reservation page
+                            startActivity(new Intent(LoginActivity.this, StaffReservationDetails.class));
+                        } else if (role_id == 1){
+                            startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
+                        } else {
+                            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                        }
                         //empty both text view after user log in
                         password.setText("");
                         email.setText("");

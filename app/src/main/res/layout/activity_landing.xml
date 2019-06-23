@@ -63,26 +63,5 @@
         android:textAllCaps="false"
         />
 
-    <Button
-        android:id="@+id/AnonymousButton"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
-        android:text="Login as anonymous"
-        android:fontFamily="sans-serif"
-        android:textSize="18sp"
-        android:textColor="@color/colorText"
-        android:background="@drawable/custom_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegisterButton"
-        android:textAllCaps="false"
-        />
-
-
-
 
 </android.support.constraint.ConstraintLayout>

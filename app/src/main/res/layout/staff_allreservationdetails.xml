@@ -33,7 +33,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Time"
+                android:text="Date"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -45,7 +45,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@id/textView7"
-                android:text="Date"
+                android:text="Time"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -53,9 +53,11 @@
                 android:id="@+id/textView13"
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="56dp"
-                android:layout_marginLeft="85dp"
+                android:layout_marginLeft="47dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="7dp"
                 android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@id/textView8"
                 android:text="Customer Name"

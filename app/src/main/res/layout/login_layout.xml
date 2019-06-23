@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/angang" />
 
     <EditText
-        android:id="@+id/_username"
+        android:id="@+id/_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -29,8 +29,8 @@
         android:backgroundTint="@android:color/black"
         android:ems="10"
         android:drawableLeft="@drawable/ic_action_user"
-        android:hint="Username"
-        android:inputType="textPersonName"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_username" />
+        app:layout_constraintTop_toBottomOf="@+id/_email" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/LoginButton2"

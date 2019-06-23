@@ -21,29 +21,32 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
 
-    private CardView LoginButton;
-    private EditText username,password;
+    private CardView loginButton;
+    private EditText email,password;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-        LoginButton = findViewById(R.id.LoginButton2);
-        username = findViewById(R.id._username);
+        loginButton = findViewById(R.id.LoginButton2);
+        email = findViewById(R.id._email);
         password = findViewById(R.id._password);
+
+        auth = FirebaseAuth.getInstance();
 
         //if user already logged in
         authListener = new FirebaseAuth.AuthStateListener(){
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
+                //signed in
                 if(firebaseAuth.getCurrentUser()!=null){
-                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
                 }
             }
         };
 
-        LoginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AuthorizedOpen();
@@ -51,46 +54,53 @@ public class LoginActivity extends AppCompatActivity {
         });
     }// end onCreate
 
-    public void AuthorizedOpen() {
+
+    private void AuthorizedOpen() {
         super.onStart();
-        // auth.addAuthStateListener(authListener);
+        //auth.addAuthStateListener(authListener);
 
-        String username_input = username.getText().toString();
+        String email_input = email.getText().toString();
         String password_input = password.getText().toString();
-        Log.d("EMail",username_input);
-        Log.d("Passpword:",password_input);
 
-        if (username_input.isEmpty()) {
-            username.requestFocus();
-            username.setError("Name cannot be empty");
-            return;
+        if (email_input.isEmpty() || email_input.contains(" ") || ! isValidEmail(email_input)) {
+            email.requestFocus();
+            
+            if (email_input.isEmpty()) {email.setError("Email field cannot be empty");}
+            else if (email_input.contains(" ")){email.setError("Spaces are not allowed.");}
+            else if ( ! isValidEmail(email_input)){email.setError("Invalid email");}
         }
-        else if (password_input.isEmpty()){
+        else if (password_input.isEmpty() || password_input.contains(" ")){
             password.requestFocus();
-            password.setError("Password cannot be empty");
-            return;
+
+            if (password_input.isEmpty()){password.setError("Password field cannot be empty");}
+            else if (password_input.contains(" ")){password.setError("Spaces are not allowed");}
         }
         else {
-            auth.signInWithEmailAndPassword(username_input, password_input).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            auth.signInWithEmailAndPassword(email_input, password_input).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Sign in problem", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Invalid account, please try again.", Toast.LENGTH_LONG).show();
                     }
                     else{
                         //go to main reservation page
-                        Intent intent = new Intent(LoginActivity.this, MakeReservationActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
+                        //empty both text view after user log in
+                        password.setText("");
+                        email.setText("");
                     }
                 }
             });
         }
 
-        //empty both text view after user log in
-        password.setText("");
-        username.setText("");
-
     }//end authorizedOpen
+
+    private boolean isValidEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }//end isValidEmailAddress
 
 
 

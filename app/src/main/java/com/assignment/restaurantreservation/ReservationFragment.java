@@ -89,7 +89,7 @@ public class ReservationFragment extends Fragment
         mDateReserve.setText(day + "/" + month + "/" + year);
 
         //Time drop down
-        mTimeReserve = view.findViewById(R.id._fullnameEP);
+        mTimeReserve = view.findViewById(R.id.time_reserve);
         myadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,Time);
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mTimeReserve.setAdapter(myadapter);

@@ -13,18 +13,20 @@ public class Account {
     private String email;
     private String mobile_number;
     private @ServerTimestamp Timestamp last_login_time;
+    private int role_id;
     private boolean removed;
 
     public Account() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Account(FirebaseUser account, String customer_name, String email, String mobile_number, Timestamp last_login_time, boolean removed) {
+    public Account(FirebaseUser account, String customer_name, String email, String mobile_number, Timestamp last_login_time, int role_id, boolean removed) {
         this.account_id = account.getUid();
         this.customer_name = customer_name;
         this.email = email;
         this.mobile_number = mobile_number;
         this.last_login_time = last_login_time;
+        this.role_id = role_id;
         this.removed = removed;
     }
 
@@ -55,6 +57,14 @@ public class Account {
 
     public void setLast_login_time(Timestamp last_login_time) {
         this.last_login_time = last_login_time;
+    }
+
+    public int getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
     }
 
     public boolean getRemoved() { return removed;}

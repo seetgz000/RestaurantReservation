@@ -21,6 +21,7 @@ import com.assignment.restaurantreservation.models.Reservation;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -31,7 +32,7 @@ import java.util.Map;
 public class ReservationFragment extends Fragment
         implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private static final String TAG = "Reservation";
+    private static final String TAG = "ReservationFragment";
     private static final String REQUIRED = "Required";
 
     // [START declare_database_ref]
@@ -157,10 +158,16 @@ public class ReservationFragment extends Fragment
 
         mFirestore.collection("seats").document(date + "_" +time).get();
 
+        DocumentReference docRef = mFirestore.collection("seats").document();
+        String docID = docRef.getId();
+
         Map<String, Object> seatData = new HashMap<>();
+        seatData.put("seat_ID", docID);
         seatData.put("available_seat", 40);
+        seatData.put("date", date);
+        seatData.put("time", time);
         seatData.put("update_time", new Timestamp(new Date()));
-        mFirestore.collection("seats").document(date + "_" +time)
+        mFirestore.collection("seats").document(docID)
                 .set(seatData);
     }
 }

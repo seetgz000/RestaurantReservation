@@ -134,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        Log.d("Login User ID", userID);
                         //go to main reservation page
                         startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
                         //empty both text view after user log in

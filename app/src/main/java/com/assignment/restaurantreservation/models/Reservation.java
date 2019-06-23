@@ -21,7 +21,8 @@ public class Reservation {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Reservation(FirebaseUser account, int no_seat, String seat_type, String reserve_date, String reserve_time, String comment, Timestamp created_time, boolean removed) {
+    public Reservation(FirebaseUser account, int no_seat, String seat_type, String reserve_date,
+                       String reserve_time, String comment, Timestamp created_time, boolean removed) {
         this.account_id = account.getUid();
         this.no_seat = no_seat;
         this.seat_type = seat_type;

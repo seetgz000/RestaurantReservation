@@ -14,15 +14,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.assignment.restaurantreservation.models.Account;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
+
+import org.w3c.dom.Document;
+
+import java.util.Date;
 
 public class EditProfile extends Fragment {
 
+    private static final String TAG = "EditProfile";
+
     private FirebaseAuth auth;
-    private EditText email,password,confirmPassword;
+    private FirebaseFirestore mFirestore;
+    private FirebaseUser user;
+    private EditText email,password,confirmPassword, fullName, mobileNumber;
     private Button editProfileBtn;
 
     int updated_email = 0;
@@ -37,12 +53,15 @@ public class EditProfile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_edit_profile, null);
 
+        fullName = rootView.findViewById(R.id._full_name);
         email = rootView.findViewById(R.id._email);
+        mobileNumber = rootView.findViewById(R.id._phoneNumber);
         password = rootView.findViewById(R.id._password);
         confirmPassword = rootView.findViewById(R.id._confirmPassword);
         editProfileBtn = rootView.findViewById(R.id.btn_EditProfileSave);
 
         auth = FirebaseAuth.getInstance();
+        initFirestore();
 
         editProfileBtn.setOnClickListener(new  View.OnClickListener() {
             @Override
@@ -51,15 +70,50 @@ public class EditProfile extends Fragment {
             }
         });
 
+        user = auth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            // User is signed in
+            String userID = user.getUid();
+
+            mFirestore.collection("accounts").whereEqualTo("account_id", userID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                fullName.setText(document.getString("customer_name"));
+                                email.setText(document.getString("email"));
+                                mobileNumber.setText(document.getString("mobile_number"));
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        } else {
+            // No user is signed in
+            Log.d(TAG, "Please Sign In to keep your information");
+        }
+
+
+
         return rootView;
     }
 
-
+    private void initFirestore() {
+        mFirestore = FirebaseFirestore.getInstance();
+    }
 
     private void editProfile(){
         updated_email = 0;
         updated_password = 0;
 
+
+        final String full_name = fullName.getText().toString();
+        final String mobile_number = mobileNumber.getText().toString();
         final String email_input = email.getText().toString();
         final String password_input = password.getText().toString();
         String confirm_pass_input = confirmPassword.getText().toString();
@@ -136,6 +190,37 @@ public class EditProfile extends Fragment {
                             }
                         });
             }
+        }
+
+        // Get a new write batch
+        final WriteBatch batch = mFirestore.batch();
+
+        if (user != null) {
+            // User is signed in
+            String userID = user.getUid();
+
+            mFirestore.collection("accounts").whereEqualTo("account_id", userID)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    DocumentReference accountDoc = mFirestore.collection("accounts").document(document.getId());
+                                    batch.update(accountDoc,"customer_name", full_name);
+                                    batch.update(accountDoc,"mobile_number", mobile_number);
+                                    batch.update(accountDoc,"email", email_input);
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                                batch.commit();
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            // No user is signed in
+            Log.d(TAG, "Please Sign In to keep your information");
         }
 //        goHome();
 

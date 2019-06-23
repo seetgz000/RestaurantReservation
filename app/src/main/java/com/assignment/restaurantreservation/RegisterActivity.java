@@ -110,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String email_input = email.getText().toString();
                         String mobileNo_input = mobileNo.getText().toString();
 
-                        Account account = new Account(user, fullName_input, email_input , mobileNo_input, new Timestamp(new Date()), false);
+                        Account account = new Account(user, fullName_input, email_input , mobileNo_input, new Timestamp(new Date()), 1, false);
                         mFirestore.collection("accounts")
                                 .add(account);
                         //go to main reservation page

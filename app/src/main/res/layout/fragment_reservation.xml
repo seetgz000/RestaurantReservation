@@ -31,7 +31,7 @@
         android:dropDownWidth="252dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.746"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/customerName_View"
         app:layout_constraintTop_toBottomOf="@+id/_fullName" />
 
     <TextView
@@ -43,7 +43,7 @@
         android:text="Prefered seat"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/customerName_View"
         tools:layout_conversion_wrapHeight="85"
         tools:layout_conversion_wrapWidth="129" />
 
@@ -121,7 +121,7 @@
         app:layout_constraintTop_toBottomOf="@+id/num_seat" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/customerName_View"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"

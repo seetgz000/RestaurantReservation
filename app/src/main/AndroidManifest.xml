@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MakeReservationActivity"/>
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ForgotPassword" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".StaffReservationDetails"/>
         <activity android:name=".LandingActivity">

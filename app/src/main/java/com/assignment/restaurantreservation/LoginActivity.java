@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.assignment.restaurantreservation.models.Reservation;
@@ -23,15 +24,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private CardView loginButton;
     private EditText email,password;
+    private TextView forgotPass;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
         loginButton = findViewById(R.id.LoginButton2);
         email = findViewById(R.id._email);
         password = findViewById(R.id._password);
+        forgotPass = findViewById(R.id._forgotPassword);
 
         auth = FirebaseAuth.getInstance();
 
@@ -40,18 +44,28 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
                 //signed in
-                if(firebaseAuth.getCurrentUser()!=null){
-                    startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(LoginActivity.this, "Internet connection unavailable.", Toast.LENGTH_LONG).show();
                 }
             }
         };
 
+        // login feature
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AuthorizedOpen();
             }
         });
+
+        //if user forgot password
+        forgotPass.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
+            }
+        });
+
     }// end onCreate
 
 

@@ -17,9 +17,11 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authListener;
+
     private EditText fullName,email,password,confirmPassword,mobileNo;
     private Button registerBtn;
-    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        //if user already logged in
+        authListener = new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
+                //signed in
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(RegisterActivity.this, "Internet connection unavailable.", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,11 +53,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
     }//end onCreate
 
     public void registerAccount(){
         super.onStart();
+        //auth.addAuthStateListener(authListener);
+
 
         String email_input = email.getText().toString();
         String password_input = password.getText().toString();

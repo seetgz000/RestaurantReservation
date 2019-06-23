@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.assignment.restaurantreservation.models.Reservation;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -79,7 +81,7 @@ public class ReservationFragment extends Fragment
         });
 
         //Time drop down
-        mTimeReserve = view.findViewById(R.id.time_reserve);
+        mTimeReserve = view.findViewById(R.id._fullName);
         myadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,Time);
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mTimeReserve.setAdapter(myadapter);
@@ -135,7 +137,7 @@ public class ReservationFragment extends Fragment
 
     private void onSubmitClicked(View view) {
 
-//        FirebaseUser account = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser account = FirebaseAuth.getInstance().getCurrentUser();
         String valueNumSeat = mNumSeat.getSelectedItem().toString();
         int numSeat = Integer.parseInt(valueNumSeat);
         String seat_type = mPreferredSeat.getSelectedItem().toString();
@@ -145,7 +147,7 @@ public class ReservationFragment extends Fragment
 
         checkSeat(numSeat, date, time);
 
-        Reservation reservation = new Reservation("TestID", numSeat, seat_type , date, time, comment, new Timestamp(new Date()), false);
+        Reservation reservation = new Reservation(account, numSeat, seat_type , date, time, comment, new Timestamp(new Date()), false);
         mFirestore.collection("reservations")
                 .add(reservation);
 

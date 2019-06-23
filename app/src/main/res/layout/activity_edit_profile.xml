@@ -26,7 +26,7 @@
 
 
     <EditText
-        android:id="@+id/time_reserve"
+        android:id="@+id/_fullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,7 +55,7 @@
         android:textColor="@color/colorText_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_reserve" />
+        app:layout_constraintTop_toBottomOf="@+id/_fullName" />
 
     <EditText
         android:id="@+id/_password"

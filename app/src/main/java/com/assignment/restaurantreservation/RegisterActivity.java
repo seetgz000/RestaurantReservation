@@ -9,15 +9,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.assignment.restaurantreservation.models.Account;
+import com.assignment.restaurantreservation.models.Reservation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseFirestore mFirestore;
 
     private EditText fullName,email,password,confirmPassword,mobileNo;
     private Button registerBtn;
@@ -31,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id._email);
         password = findViewById(R.id._password);
         confirmPassword = findViewById(R.id._confirmPassword);
+        fullName = findViewById(R.id._fullName);
+        mobileNo = findViewById(R.id._phoneNumber);
 
         auth = FirebaseAuth.getInstance();
 
@@ -45,6 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
+        initFirestore();
+
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }//end onCreate
+
+    private void initFirestore() {
+        mFirestore = FirebaseFirestore.getInstance();
+    }
 
     public void registerAccount(){
         super.onStart();
@@ -89,6 +105,14 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String fullName_input = fullName.getText().toString();
+                        String email_input = email.getText().toString();
+                        String mobileNo_input = mobileNo.getText().toString();
+
+                        Account account = new Account(user, fullName_input, email_input , mobileNo_input, new Timestamp(new Date()), false);
+                        mFirestore.collection("accounts")
+                                .add(account);
                         //go to main reservation page
                         startActivity(new Intent(RegisterActivity.this, MakeReservationActivity.class));
                         //empty both text view after user log in

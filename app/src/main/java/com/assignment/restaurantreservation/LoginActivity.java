@@ -4,21 +4,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.assignment.restaurantreservation.models.Account;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseFirestore mFirestore;
+    private FirebaseUser user;
 
     private Button loginButton;
     private EditText email,password;
@@ -48,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        initFirestore();
+
         // login feature
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +83,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }// end onCreate
 
+    private void initFirestore() {
+        mFirestore = FirebaseFirestore.getInstance();
+    }
 
     private void AuthorizedOpen() {
         super.onStart();
@@ -95,6 +115,26 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Invalid account, please try again.", Toast.LENGTH_LONG).show();
                     }
                     else{
+                        user = auth.getInstance().getCurrentUser();
+                        String userID = user.getUid();
+
+                        mFirestore.collection("accounts").whereEqualTo("account_id", userID)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            mFirestore.collection("accounts").document(document.getId())
+                                                    .update("last_login_time", new Timestamp(new Date()));
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
+                        Log.d("Login User ID", userID);
                         //go to main reservation page
                         startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
                         //empty both text view after user log in
@@ -113,7 +153,5 @@ public class LoginActivity extends AppCompatActivity {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }//end isValidEmailAddress
-
-
 
 }

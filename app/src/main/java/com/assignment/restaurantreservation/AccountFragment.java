@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +16,17 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.assignment.restaurantreservation.adapter.reservationAdapter;
+import com.assignment.restaurantreservation.models.Reservation;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -27,8 +36,12 @@ public class AccountFragment extends Fragment{
 
     private TextView EditProfileButton, ViewCustomerName;
     private FirebaseAuth auth;
-    private FirebaseFirestore mFirestore;
     private FirebaseUser user;
+
+    private FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+    private CollectionReference reservationRef = mFirestore.collection("reservations");
+
+    private reservationAdapter adapter;
 
     @Nullable
     @Override

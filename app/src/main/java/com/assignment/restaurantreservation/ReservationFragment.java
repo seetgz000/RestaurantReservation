@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.assignment.restaurantreservation.models.Reservation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -47,7 +54,7 @@ public class ReservationFragment extends Fragment
     Spinner mPreferredSeat, mNumSeat, mTimeReserve;
     EditText mComment;
 
-    String Time [] = {"10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 AM","1:00 PM","1:30 PM"
+    String Time [] = {"10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","1:00 PM","1:30 PM"
                                 ,"2:00 PM","2:30 PM","3:00 PM","3:30 PM","4:00 PM","4:30 PM","5:00 PM","5:30 PM","6:00 PM","6:30 PM"
                                 ,"7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM"};
     String Noofseat[] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"};
@@ -145,8 +152,8 @@ public class ReservationFragment extends Fragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSubmitReservation:
-
-                ReservationConfirm RC = new ReservationConfirm();
+                onSubmitClicked(v);
+//                ReservationConfirm RC = new ReservationConfirm();
 
                 String date = mDateReserve.getText().toString();
                 String time = mTimeReserve.getSelectedItem().toString();
@@ -156,12 +163,13 @@ public class ReservationFragment extends Fragment
                 bundle.putString("DATE",date);
                 bundle.putString("TIME",time);
                 bundle.putString("SEAT",seat);
-                RC.setArguments(bundle);
+//                RC.setArguments(bundle);
 
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
-                        fr.replace(R.id.fragment_container, RC);
-                fr.addToBackStack(null);
+//                        fr.replace(R.id.fragment_container, RC);
+//                fr.addToBackStack(null);
                         fr.commit();
+
 
                 break;
         }
@@ -176,12 +184,28 @@ public class ReservationFragment extends Fragment
         String date = mDateReserve.getText().toString();
         String time = mTimeReserve.getSelectedItem().toString();
         String comment = mComment.getText().toString();
+        final Reservation resData = new Reservation();
 
-        checkSeat(numSeat, date, time);
+//        checkSeat(numSeat, date, time);
+
 
         Reservation reservation = new Reservation(account, numSeat, seat_type , date, time, comment, new Timestamp(new Date()), false);
         mFirestore.collection("reservations")
-                .add(reservation);
+                .add(reservation)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
         if (mDateReserve.getText().toString().equals("")) {
             Toast.makeText(getContext(), "Please pick a date", Toast.LENGTH_LONG).show();
@@ -189,20 +213,20 @@ public class ReservationFragment extends Fragment
 
     }
 
-    private void checkSeat (int numSeat, String date, String time) {
-
-        mFirestore.collection("seats").document(date + "_" +time).get();
-
-        DocumentReference docRef = mFirestore.collection("seats").document();
-        String docID = docRef.getId();
-
-        Map<String, Object> seatData = new HashMap<>();
-        seatData.put("seat_ID", docID);
-        seatData.put("available_seat", 40);
-        seatData.put("date", date);
-        seatData.put("time", time);
-        seatData.put("update_time", new Timestamp(new Date()));
-        mFirestore.collection("seats").document(docID)
-                .set(seatData);
-    }
+//    private void checkSeat (int numSeat, String date, String time) {
+//
+//        mFirestore.collection("seats").document(date + "_" +time).get();
+//
+//        DocumentReference docRef = mFirestore.collection("seats").document();
+//        String docID = docRef.getId();
+//
+//        Map<String, Object> seatData = new HashMap<>();
+//        seatData.put("seat_ID", docID);
+//        seatData.put("available_seat", 40);
+//        seatData.put("date", date);
+//        seatData.put("time", time);
+//        seatData.put("update_time", new Timestamp(new Date()));
+//        mFirestore.collection("seats").document(docID)
+//                .set(seatData);
+//    }
 }

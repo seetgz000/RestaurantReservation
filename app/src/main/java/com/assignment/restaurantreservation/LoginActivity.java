@@ -136,36 +136,36 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
 
-                        mFirestore.collection("accounts").whereEqualTo("account_id", userID)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                account.setRole_id(document.getLong("role_id").intValue());
-                                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                            }
-                                        } else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                        }
-                                    }
-                                });
-                        int role_id = account.getRole_id();
-                        Log.d(TAG, "Role_id" + " => " + role_id);
-                        if (role_id == 0){
+//                        mFirestore.collection("accounts").whereEqualTo("account_id", userID)
+//                                .get()
+//                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                        if (task.isSuccessful()) {
+//                                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                                account.setRole_id(document.getLong("role_id").intValue());
+//                                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                            }
+//                                        } else {
+//                                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                                        }
+//                                    }
+//                                });
+//                        int role_id = account.getRole_id();
+//                        Log.d(TAG, "Role_id" + " => " + role_id);
+//                        if (role_id == 0){
                             //go to main reservation page
-                            startActivity(new Intent(LoginActivity.this, StaffReservationDetails.class));
-                        } else if (role_id == 1){
+//                            startActivity(new Intent(LoginActivity.this, StaffReservationDetails.class));
+//                        } else if (role_id == 1){
                             startActivity(new Intent(LoginActivity.this, MakeReservationActivity.class));
-                        } else {
-                            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+//                        } else {
+//                            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                         }
                         //empty both text view after user log in
                         password.setText("");
                         email.setText("");
                     }
-                }
+//                }
             });
         }
 

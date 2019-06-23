@@ -30,7 +30,7 @@ public class reservationAdapter extends FirestoreRecyclerAdapter<Reservation, re
     protected void onBindViewHolder(@NonNull reservationHolder holder, int position, @NonNull Reservation model) {
         holder.textViewDate.setText(String.valueOf(model.getReserve_date()));
         holder.textViewTime.setText(String.valueOf(model.getReserve_time()));
-        holder.textViewCust.setText("Somebody");
+        holder.textViewCust.setText(String.valueOf(model.getAccount_id()));
     }
 
     @NonNull

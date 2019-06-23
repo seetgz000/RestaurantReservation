@@ -9,25 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.assignment.restaurantreservation.models.Account;
-import com.assignment.restaurantreservation.models.Reservation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
-    private FirebaseFirestore mFirestore;
 
-    private EditText fullName,email,password,confirmPassword,phoneNumber;
+    private EditText fullName,email,password,confirmPassword,mobileNo;
     private Button registerBtn;
 
     @Override
@@ -39,8 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id._email);
         password = findViewById(R.id._password);
         confirmPassword = findViewById(R.id._confirmPassword);
-        fullName = findViewById(R.id._fullName);
-        phoneNumber = findViewById(R.id._phoneNumber);
 
         auth = FirebaseAuth.getInstance();
 
@@ -55,8 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        initFirestore();
-
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,29 +54,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     }//end onCreate
 
-    private void initFirestore() {
-        mFirestore = FirebaseFirestore.getInstance();
-    }
-
     public void registerAccount(){
         super.onStart();
         //auth.addAuthStateListener(authListener);
 
-        String full_name_input = fullName.getText().toString();
+
         String email_input = email.getText().toString();
         String password_input = password.getText().toString();
         String confirm_pass_input = confirmPassword.getText().toString();
-        String phone_number_input = phoneNumber.getText().toString();
 
-
-        if (full_name_input.isEmpty() || !isValidName(full_name_input)) {
-            fullName.requestFocus();
-            if (full_name_input.isEmpty()) {fullName.setError("Name cannot be empty");}
-            else if (  ! isValidName(full_name_input)){fullName.setError("Invalid name, only alphabets are allowed.");}
-        }
-
-
-        else if (email_input.isEmpty() || email_input.contains(" ") || ! isValidEmail(email_input)) {
+        if (email_input.isEmpty() || email_input.contains(" ") || ! isValidEmail(email_input)) {
             email.requestFocus();
 
             if (email_input.isEmpty()) {email.setError("Email field cannot be empty");}
@@ -109,29 +84,11 @@ public class RegisterActivity extends AppCompatActivity {
             confirmPassword.requestFocus();
             confirmPassword.setError("Password entered is not the same.");
         }
-
-
-        else if (phone_number_input.isEmpty() || phone_number_input.contains(" ") || ! isValidNumber(email_input)) {
-            phoneNumber.requestFocus();
-
-            if (phone_number_input.isEmpty()) {phoneNumber.setError("Phone number cannot be empty");}
-            else if (phone_number_input.contains(" ")){phoneNumber.setError("Spaces are not allowed.");}
-            else if ( ! isValidNumber(phone_number_input)){phoneNumber.setError("Invalid phone number");}
-        }
-
         else {
             auth.createUserWithEmailAndPassword(email_input, password_input).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String fullName_input = fullName.getText().toString();
-                        String email_input = email.getText().toString();
-                        String mobileNo_input = phoneNumber.getText().toString();
-
-                        Account account = new Account(user, fullName_input, email_input , mobileNo_input, new Timestamp(new Date()), 1, false);
-                        mFirestore.collection("accounts")
-                                .add(account);
                         //go to main reservation page
                         startActivity(new Intent(RegisterActivity.this, MakeReservationActivity.class));
                         //empty both text view after user log in
@@ -152,20 +109,6 @@ public class RegisterActivity extends AppCompatActivity {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }//end isValidEmailAddress
-
-    private boolean isValidName(String fullname) {
-        String regex = "[A-Za-z ]+";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
-        java.util.regex.Matcher m = p.matcher(fullname);
-        return m.matches();
-    }//end isValidName
-
-    private boolean isValidNumber(String fullname) {
-        String regex = "[0-9]+";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
-        java.util.regex.Matcher m = p.matcher(fullname);
-        return m.matches();
-    }//end isValidNumber
 
 
 }//end class

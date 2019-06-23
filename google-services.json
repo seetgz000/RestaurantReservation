@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "535892605895",
+    "firebase_url": "https://restaurantreservation-2e68c.firebaseio.com",
+    "project_id": "restaurantreservation-2e68c",
+    "storage_bucket": "restaurantreservation-2e68c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535892605895:android:d1bfb1223dcd58e9",
+        "android_client_info": {
+          "package_name": "com.assignment.restaurantreservation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535892605895-0s32n7j4b5c35i09tuatf0n3gegqttlp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.assignment.restaurantreservation",
+            "certificate_hash": "bcefdf88a02a9bf6c72c53e508e76c0c358bc2d2"
+          }
+        },
+        {
+          "client_id": "535892605895-jdorhobn1utc38ffbi9bqcos5c8rcitp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWhmeDTWobdLYMk7LAl2yU6JfH0HLw4v4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535892605895-jdorhobn1utc38ffbi9bqcos5c8rcitp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

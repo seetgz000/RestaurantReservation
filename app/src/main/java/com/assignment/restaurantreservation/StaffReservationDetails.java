@@ -32,7 +32,10 @@ public class StaffReservationDetails extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        Query query = notebookRef.orderBy("reserve_date", Query.Direction.DESCENDING).orderBy("reserve_time", Query.Direction.DESCENDING);
+        Query query = notebookRef
+                .whereEqualTo("removed", false)
+                .orderBy("reserve_date", Query.Direction.DESCENDING)
+                .orderBy("reserve_time", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Reservation> Options = new FirestoreRecyclerOptions.Builder<Reservation>()
                 .setQuery(query, Reservation.class)

@@ -15,18 +15,18 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TimePicker;
-
-import android.widget.TextView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.assignment.restaurantreservation.models.Reservation;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReservationFragment extends Fragment
         implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -137,6 +137,7 @@ public class ReservationFragment extends Fragment
 
     private void onSubmitClicked(View view) {
 
+//        FirebaseUser account = FirebaseAuth.getInstance().getCurrentUser();
         String valueNumSeat = mNumSeat.getSelectedItem().toString();
         int numSeat = Integer.parseInt(valueNumSeat);
         String seat_type = mPreferredSeat.getSelectedItem().toString();
@@ -144,8 +145,22 @@ public class ReservationFragment extends Fragment
         String time = mTimeReserve.getSelectedItem().toString();
         String comment = mComment.getText().toString();
 
-        Reservation reservation = new Reservation(numSeat, seat_type , date, time, comment, new Timestamp(new Date()));
+        checkSeat(numSeat, date, time);
+
+        Reservation reservation = new Reservation("TestID", numSeat, seat_type , date, time, comment, new Timestamp(new Date()), false);
         mFirestore.collection("reservations")
                 .add(reservation);
+
+    }
+
+    private void checkSeat (int numSeat, String date, String time) {
+
+        mFirestore.collection("seats").document(date + "_" +time).get();
+
+        Map<String, Object> seatData = new HashMap<>();
+        seatData.put("available_seat", 40);
+        seatData.put("update_time", new Timestamp(new Date()));
+        mFirestore.collection("seats").document(date + "_" +time)
+                .set(seatData);
     }
 }

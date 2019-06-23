@@ -42,7 +42,7 @@ public class reservationAdapter extends FirestoreRecyclerAdapter<Reservation, re
     }
 
     public void deleteItem(int position){
-        getSnapshots().getSnapshot(position).getReference().delete();
+        getSnapshots().getSnapshot(position).getReference().update("removed", true);
     }
 
     class reservationHolder extends RecyclerView.ViewHolder{

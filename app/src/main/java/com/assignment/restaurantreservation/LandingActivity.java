@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 public class LandingActivity extends AppCompatActivity {
 
-
-    private TextView signuptext, customerPage;
-    EditText _username, _password;
     Button LoginButton, RegisterButton, AnonymousButton;
 
     @Override
@@ -20,8 +17,6 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        _username = findViewById(R.id._username);
-        _password = findViewById(R.id._password);
         LoginButton = findViewById(R.id.LoginButton1);
         RegisterButton = findViewById(R.id.RegisterButton);
         AnonymousButton = findViewById(R.id.AnonymousButton);

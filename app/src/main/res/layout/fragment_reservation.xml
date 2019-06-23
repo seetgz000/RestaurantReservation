@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <Spinner
-        android:id="@+id/time_reserve"
+        android:id="@+id/_fullnameEP"
         android:layout_width="252dp"
         android:layout_height="33dp"
         android:layout_marginStart="8dp"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.746"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/time_reserve" />
+        app:layout_constraintTop_toBottomOf="@+id/_fullnameEP" />
 
     <TextView
         android:id="@+id/textView10"
@@ -99,6 +99,7 @@
         android:layout_marginStart="52dp"
         android:layout_marginTop="156dp"
         android:clickable="false"
+        android:background="@drawable/textview_bottom_border"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@color/colorText_black"

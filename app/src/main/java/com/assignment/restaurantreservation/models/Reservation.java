@@ -1,7 +1,6 @@
 package com.assignment.restaurantreservation.models;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 

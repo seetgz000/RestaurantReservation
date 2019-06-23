@@ -45,7 +45,7 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:inputType="textPersonName"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"

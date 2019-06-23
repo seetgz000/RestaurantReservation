@@ -56,7 +56,6 @@ public class MakeReservationActivity extends AppCompatActivity implements Bottom
                         .beginTransaction()
                         .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
-                        .addToBackStack(null)
                     .commit();
 
                 CurrentFragmentName = fragmentname;

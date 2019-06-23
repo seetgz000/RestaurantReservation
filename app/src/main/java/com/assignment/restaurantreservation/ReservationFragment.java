@@ -19,8 +19,6 @@ import android.widget.TextView;
 
 import com.assignment.restaurantreservation.models.Reservation;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
